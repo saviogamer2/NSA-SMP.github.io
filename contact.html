@@ -76,16 +76,43 @@
 <script>
   function submitForm(event) {
     event.preventDefault();
-    // Get values (would normally be sent to a server)
+
     const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const type = document.getElementById("type").value;
-    const message = document.getElementById("message").value;
+    const messageText = document.getElementById("message").value;
 
-    // Simulate submission
-    document.getElementById("confirmation").textContent = `✅ Thank you ${username}! Your ${type.replace('-', ' ')} has been received. We'll respond to ${email}.`;
+    if (type === "bug") {
+      const webhookURL = "https://discord.com/api/webhooks/1383077852735602719/EDQTTdwaKj5ag4Fu1BFGk3gRjQpOTjWHa50woghx0vT5OEZ-Scd1fukqmXoirfuUzgVA"; // replace this with your Discord webhook URL
 
-    // Reset form fields
+      const payload = {
+        content: `🐞 **New Bug Report!**
+**Player:** ${username}
+**Email:** ${email}
+**Message:** ${messageText}`
+      };
+
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById("confirmation").textContent = `✅ Bug report sent to NSA SMP team. Thanks, ${username}!`;
+        } else {
+          document.getElementById("confirmation").textContent = "⚠️ Failed to send bug report to Discord.";
+        }
+      })
+      .catch(error => {
+        console.error("Webhook error:", error);
+        document.getElementById("confirmation").textContent = "⚠️ Error sending bug report.";
+      });
+
+    } else {
+      document.getElementById("confirmation").textContent = `✅ Thank you ${username}! Your ${type.replace("-", " ")} has been received.`;
+    }
+
     document.querySelector(".contact-form").reset();
   }
 </script>
