@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Login | MyMC Server</title>
+  <style>
+    body {
+      margin: 0;
+      background: #121212;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+    }
+    .login-box h2 {
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    .login-box input {
+      width: 90%;
+      padding: 14px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 6px;
+      background: #2b2b2b;
+      color: #eee;
+    }
+    .login-box button {
+      padding: 12px 24px;
+      background-color: #28a745;
+      border: none;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    .login-box button:hover {
+      background-color: #218838;
+    }
+    #message {
+      margin-top: 14px;
+      color: #ff4c4c;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-box">
+  <h2>🔐 Admin Login</h2>
+  <input type="text" id="username" placeholder="Username"><br>
+  <input type="password" id="password" placeholder="Password"><br>
+  <button onclick="localLogin()">Login</button>
+  <p id="message"></p>
+</div>
+
+<script>
+  // If already logged in, redirect to admin page automatically
+  if (localStorage.getItem("localUser")) {
+    window.location.href = "admin.html";
+  }
+
+  function localLogin() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
+
+    // Hardcoded login details
+    const adminUser = "savio";
+    const adminPass = "saviogamer";
+
+    if (username === adminUser && password === adminPass) {
+      localStorage.setItem("localUser", username);
+      window.location.href = "admin.html";
+    } else {
+      message.textContent = "❌ Incorrect username or password.";
+    }
+  }
+</script>
+
+</body>
+</html>
